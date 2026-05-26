@@ -1,0 +1,47 @@
+# IMEO MARS (Methane Alert and Response System) validation config.
+#
+# MARS is the UN Environment Programme's confirmed-super-emitter
+# notification database. It's the strongest free validation source
+# for super-emitter detection. Access requires a free account at
+# https://methanedata.unep.org/. API and bulk export details are
+# documented on the same site.
+#
+# NEVER commit credentials. The loader reads the token from the
+# environment variable named below.
+
+source_id: imeo_mars
+display_name: "UNEP IMEO Methane Alert and Response System"
+
+api:
+  # The MARS public API base URL. Confirm at first use; UNEP has
+  # changed endpoints in the past.
+  base_url: "https://methanedata.unep.org/api"
+  # Environment variable holding the user's MARS API token.
+  token_env: "IMEO_MARS_TOKEN"
+  # Request timeout in seconds.
+  timeout_s: 30
+
+# Spatial filter: pull alerts whose lon/lat fall within any of the
+# four production-scan regions. The loader is responsible for the
+# union with each region bbox in configs/regions/*.yaml.
+spatial_filter:
+  union_of_regions:
+    - east_china_sea
+    - gulf_of_mexico
+    - persian_gulf
+    - north_sea
+
+# Temporal filter; aligned with the production scan window.
+time_range:
+  start: "2022-01-01"
+  end:   "2025-12-31"
+
+# Matching tolerance for OffshorePlume detection -> MARS alert.
+match:
+  spatial_buffer_km: 5.0     # MARS reports point alerts; allow 5 km halo
+  temporal_window_days: 1    # alert must be within +/- 1 day of S2 acquisition
+
+# Output path for the cached MARS pull.
+output:
+  parquet: "data/processed/validation/imeo_mars_alerts.parquet"
+  geopackage: "data/processed/validation/imeo_mars_alerts.gpkg"

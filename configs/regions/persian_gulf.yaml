@@ -1,0 +1,47 @@
+# Persian Gulf — TERTIARY production-scan region (per PI 2026-05-26).
+#
+# Scientific motivation
+# ---------------------
+# Saudi Aramco, ADNOC, NIOC, KOC, and Qatar Energy operate dense
+# offshore O&G infrastructure across the Persian Gulf. Irakulis-
+# Loitxate et al. 2022 (ESS&T) catalogued super-emitters in
+# Turkmenistan's onshore Caspian basin using PRISMA; the directly
+# adjacent offshore Persian Gulf has comparable industrial intensity
+# but has not had a published Sentinel-2 region-wide scan.
+
+region_id: persian_gulf
+priority: 3
+display_name: "Persian Gulf"
+
+# Bounding box covers the full Persian Gulf from the Shatt al-Arab
+# delta to the Strait of Hormuz, plus a sliver of the Gulf of Oman
+# to capture nearby fields.
+bbox:
+  lon_min: 48.0
+  lat_min: 23.5
+  lon_max: 57.5
+  lat_max: 30.5
+  crs: "EPSG:4326"
+
+time_range:
+  start: "2022-01-01"
+  end:   "2025-12-31"
+
+sentinel2:
+  collection: "COPERNICUS/S2_HARMONIZED"
+  # Persian Gulf is dusty and hazy more than it is cloudy; the cloud
+  # mask alone doesn't catch dust storms. Phase 2 will need an
+  # aerosol-optical-depth screening step.
+  max_cloud_pct: 30
+  bands_required: ["B11", "B12", "QA60"]
+
+glint:
+  enabled: true
+  threshold_deg: 15.0
+
+notes: |
+  - Shallow waters around the UAE/Qatar/Bahrain coastline have
+    bright sea-floor reflectance that bleeds into Band 11 and Band 12;
+    consider masking with bathymetry < 20 m as a Phase 2 refinement.
+  - Frequent shamal dust events. Need an AOD or NDVI-based dust screen.
+  - High shipping density in the central channel and at Hormuz.

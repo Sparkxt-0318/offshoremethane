@@ -1,0 +1,45 @@
+# Gulf of Mexico — SECONDARY production-scan region (per PI 2026-05-26).
+#
+# Scientific motivation
+# ---------------------
+# US Federal waters in the Gulf of Mexico are the densest offshore
+# O&G production basin globally, with extensive BOEM regulatory
+# reporting on venting and flaring incidents. IMEO MARS has issued
+# confirmed alerts here. This region gives OffshorePlume its
+# strongest validation story — for any candidate detection we can
+# cross-check against BOEM, MARS, Carbon Mapper Tanager-1, and the
+# Sherwin et al. 2024 aerial survey database.
+
+region_id: gulf_of_mexico
+priority: 2
+display_name: "Gulf of Mexico"
+
+# Bounding box covers BOEM's Western, Central, and Eastern Gulf
+# planning areas plus a buffer into the Bay of Campeche.
+bbox:
+  lon_min: -98.0
+  lat_min: 22.0
+  lon_max: -80.0
+  lat_max: 30.5
+  crs: "EPSG:4326"
+
+time_range:
+  start: "2022-01-01"
+  end:   "2025-12-31"
+
+sentinel2:
+  collection: "COPERNICUS/S2_HARMONIZED"
+  max_cloud_pct: 30
+  bands_required: ["B11", "B12", "QA60"]
+
+glint:
+  enabled: true
+  threshold_deg: 15.0
+
+notes: |
+  - Hurricane-season cloud cover (Jun-Nov) sharply limits usable scenes;
+    expect coverage to be summer-light, winter-heavy.
+  - The Loop Current and its eddies create surface films that may
+    confound the retrieval; treat as a negative-class source for CNN.
+  - Sargassum mats are a known issue in some years (esp. 2022-2024);
+    they elevate Band 11 and depress the MBMP ratio non-uniformly.

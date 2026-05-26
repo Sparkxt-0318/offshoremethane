@@ -1,0 +1,50 @@
+# Phase 1 baseline validation site: Hassi Messaoud oil and gas field, Algeria.
+#
+# This site was selected because Ehret et al. 2022 (Environ. Sci.
+# Technol., DOI 10.1021/acs.est.1c08575) published several confirmed
+# Sentinel-2 MBMP detections here, giving us a directly comparable
+# reference for our reimplementation. Phase 1 must reproduce at least
+# five of these published plume events.
+#
+# IMPORTANT: This config is a starting point. The exact Sentinel-2
+# scene IDs from Ehret et al. 2022 must be looked up in the paper's
+# figures and supplementary materials before Phase 1 runs. Until then,
+# the scene_ids list below is empty and the loader will fall back to a
+# date-range query across the AOI.
+
+site_id: hassi_messaoud
+phase: 1
+display_name: "Hassi Messaoud, Algeria"
+
+# Centroid: 31.6731 N, 6.0739 E
+bbox:
+  lon_min: 5.7
+  lat_min: 31.3
+  lon_max: 6.5
+  lat_max: 32.0
+  crs: "EPSG:4326"
+
+# Search window for candidate baseline scenes. The actual events
+# documented in Ehret et al. 2022 fall within ~2019-2021; we keep a
+# wider window so we can pick the cleanest matches.
+time_range:
+  start: "2019-01-01"
+  end:   "2021-12-31"
+
+sentinel2:
+  collection: "COPERNICUS/S2_HARMONIZED"
+  max_cloud_pct: 5   # arid site; we can be strict
+
+# Populate this list with explicit Sentinel-2 product IDs once we have
+# read Ehret et al. 2022 Figs. 4-5 and the supplement. Format example:
+#   - "20191217T101421_20191217T101610_T31TFK"
+scene_ids: []
+
+# Validation expectation (ADR-0002): the Phase 1 notebook reports the
+# Pearson r between our retrieved Delta-XCH4 enhancement and the
+# values from Ehret et al. 2022 Fig. 5. Target r > 0.7 to pass the
+# phase gate.
+validation:
+  reference: "ehret2022"
+  metric: "pearson_r"
+  target: 0.7

@@ -1,0 +1,133 @@
+% OffshorePlume bibliography.
+%
+% Conventions:
+%   - Cite by author-year key (e.g., varon2021).
+%   - Always include a DOI when one exists.
+%   - Add a one-line `note = {...}` describing where in the project the
+%     reference is used. This makes the methods write-up easier and
+%     keeps the bibliography self-documenting.
+
+% =====================================================================
+% Core retrieval method
+% =====================================================================
+
+@article{varon2021,
+  author  = {Varon, Daniel J. and Jervis, Dylan and McKeever, Jason and Spence, Ian and Gains, David and Jacob, Daniel J.},
+  title   = {High-frequency monitoring of anomalous methane point sources with multispectral Sentinel-2 satellite observations},
+  journal = {Atmospheric Measurement Techniques},
+  volume  = {14},
+  number  = {4},
+  pages   = {2771--2785},
+  year    = {2021},
+  doi     = {10.5194/amt-14-2771-2021},
+  note    = {Introduces the MBMP and SBMP retrievals on which OffshorePlume is built (ADR-0001).}
+}
+
+@article{varon2018,
+  author  = {Varon, Daniel J. and Jacob, Daniel J. and McKeever, Jason and Jervis, Dylan and Durak, Berke O.~A. and Xia, Yipu and Huang, Ying},
+  title   = {Quantifying methane point sources from fine-scale satellite observations of atmospheric methane plumes},
+  journal = {Atmospheric Measurement Techniques},
+  volume  = {11},
+  number  = {10},
+  pages   = {5673--5686},
+  year    = {2018},
+  doi     = {10.5194/amt-11-5673-2018},
+  note    = {Source of the integrated-mass-enhancement (IME) plume-rate method and the effective-wind coefficient used in Phase 5 (ADR-0006).}
+}
+
+@article{ehret2022,
+  author  = {Ehret, Thibaud and De Truchis, Aur{\'e}lien and Mazzolini, Matteo and Morel, Jean-Michel and d'Aspremont, Alexandre and Lauvaux, Thomas and Duren, Riley and Cusworth, Daniel and Facciolo, Gabriele},
+  title   = {Global tracking and quantification of oil and gas methane emissions from recurrent {S}entinel-2 imagery},
+  journal = {Environmental Science \& Technology},
+  volume  = {56},
+  number  = {14},
+  pages   = {10517--10529},
+  year    = {2022},
+  doi     = {10.1021/acs.est.1c08575},
+  note    = {Baseline land-emitter validation target (Hassi Messaoud) for Phase 1. Demonstrates Sentinel-2 MBMP at global scale.}
+}
+
+@article{irakulis2022,
+  author  = {Irakulis-Loitxate, Itziar and Guanter, Luis and Maasakkers, Joannes D. and Zavala-Araiza, Daniel and Aben, Ilse},
+  title   = {Satellites detect abatable super-emissions in one of the world's largest methane hotspot regions},
+  journal = {Environmental Science \& Technology},
+  volume  = {56},
+  number  = {4},
+  pages   = {2143--2152},
+  year    = {2022},
+  doi     = {10.1021/acs.est.1c04873},
+  note    = {Turkmenistan super-emitter catalog. Source of additional positive-class plumes for the Phase 3 CNN training set.}
+}
+
+@article{gorrono2023,
+  author  = {Gorro{\~n}o, Javier and Varon, Daniel J. and Irakulis-Loitxate, Itziar and Guanter, Luis},
+  title   = {Understanding the potential of {S}entinel-2 for monitoring methane point emissions and its application to {S}audi {A}rabia and {T}urkmenistan},
+  journal = {Atmospheric Measurement Techniques},
+  volume  = {16},
+  number  = {1},
+  pages   = {89--107},
+  year    = {2023},
+  doi     = {10.5194/amt-16-89-2023},
+  note    = {Quantifies Sentinel-2 retrieval sensitivities and proposes the offshore reflectance correction adopted in Phase 2.}
+}
+
+@article{guanter2021,
+  author  = {Guanter, Luis and Irakulis-Loitxate, Itziar and Gorro{\~n}o, Javier and Sanchez-Garcia, Elena and Cusworth, Daniel H. and Varon, Daniel J. and Cog{\'e}o, Sylvain and Aben, Ilse},
+  title   = {Mapping methane point emissions with the {PRISMA} spaceborne imaging spectrometer},
+  journal = {Remote Sensing of Environment},
+  volume  = {265},
+  pages   = {112671},
+  year    = {2021},
+  doi     = {10.1016/j.rse.2021.112671},
+  note    = {Hyperspectral reference comparison for retrieval validation.}
+}
+
+@article{sherwin2024,
+  author  = {Sherwin, Evan D. and Rutherford, Jeffrey S. and Zhang, Zhan and Chen, Yuanlei and Wetherley, Erin B. and Yakovlev, Petr V. and Berman, Elena S. F. and Jones, Brian B. and Cusworth, Daniel H. and Thorpe, Andrew K. and Ayasse, Alana K. and Duren, Riley M. and Brandt, Adam R.},
+  title   = {US oil and gas system emissions from nearly one million aerial site measurements},
+  journal = {Nature},
+  volume  = {627},
+  pages   = {328--334},
+  year    = {2024},
+  doi     = {10.1038/s41586-024-07117-5},
+  note    = {Independent aerial-survey ground truth for US emitters; cross-reference for Gulf of Mexico Phase 4 results.}
+}
+
+% =====================================================================
+% Online sources (case studies, alert systems)
+% =====================================================================
+
+@misc{skytruth2025,
+  author       = {{SkyTruth}},
+  title        = {Breaking ground in offshore methane detection},
+  year         = {2025},
+  month        = {August},
+  howpublished = {\url{https://skytruth.org/2025/08/breaking-ground-in-offshore-methane-detection/}},
+  note         = {Proof-of-concept demonstration of Sentinel-2 MBMP for offshore plumes; motivating prior work for OffshorePlume.}
+}
+
+@misc{imeo_mars,
+  author       = {{UN Environment Programme}},
+  title        = {International Methane Emissions Observatory: Methane Alert and Response System (MARS)},
+  year         = {2024},
+  howpublished = {\url{https://methanedata.unep.org}},
+  note         = {Primary validation source for confirmed super-emitter events.}
+}
+
+@misc{carbonmapper,
+  author       = {{Carbon Mapper}},
+  title        = {Carbon Mapper Open Data Portal},
+  year         = {2024},
+  howpublished = {\url{https://data.carbonmapper.org}},
+  note         = {Aircraft and Tanager-1 plume catalog; secondary validation source.}
+}
+
+% =====================================================================
+% Stubs to fill in as methods stabilize
+% =====================================================================
+
+% TODO: Add Thompson et al. 2015 (matched filter retrieval) when discussing
+%       alternatives in ADR-0001 prose.
+% TODO: Add Cox & Munk 1954 if we end up using their sea-surface BRDF model
+%       in Phase 2.
+% TODO: Add Hersbach et al. 2020 for ERA5 reanalysis (Phase 5 wind data).

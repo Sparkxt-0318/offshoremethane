@@ -1,0 +1,68 @@
+# --- Data (never commit raw or intermediate satellite scenes) ---
+# Ignore files inside but keep the directories themselves via .gitkeep.
+data/raw/*
+data/intermediate/*
+!data/raw/.gitkeep
+!data/intermediate/.gitkeep
+
+# --- Credentials (Earth Engine, Copernicus, IMEO MARS API keys) ---
+.env
+.env.local
+.env.*.local
+credentials/
+*.json.key
+.config/earthengine/
+.gee/
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+env/
+.python-version
+
+# --- Build / packaging ---
+build/
+dist/
+*.egg-info/
+*.egg
+.eggs/
+
+# --- Testing / typing / linting caches ---
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.cache/
+.ruff_cache/
+.mypy_cache/
+.dmypy.json
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+*-checkpoint.ipynb
+
+# --- IDE / OS ---
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# --- uv / pip ---
+# Keep uv.lock committed for reproducibility; ignore pip-tools temp files
+pip-wheel-metadata/
+
+# --- Generated figures and large outputs ---
+# Notebooks may produce large PNGs; commit only curated final figures under docs/figures/
+notebooks/*.png
+notebooks/*.jpg
+notebooks/*.tif
+
+# --- Sentinel-2 / GeoTIFF scratch files ---
+*.tif.aux.xml
+*.tmp
