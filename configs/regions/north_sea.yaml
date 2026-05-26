@@ -1,0 +1,49 @@
+# North Sea — QUATERNARY production-scan region (per PI 2026-05-26).
+#
+# Scientific motivation
+# ---------------------
+# The North Sea (UK, Norwegian, Danish, Dutch sectors) is a mature
+# offshore basin with strong regulatory reporting (e.g., UK NSTA,
+# Norwegian Petroleum Directorate). High operator transparency makes
+# it a strong validation target — but persistent cloud cover sharply
+# limits Sentinel-2 usable-scene count.
+
+region_id: north_sea
+priority: 4
+display_name: "North Sea"
+
+# Bounding box covers UK Continental Shelf, Norwegian sector, and
+# Danish/Dutch sectors. Excludes the Skagerrak/Kattegat (too coastal,
+# too brackish for clean MBMP).
+bbox:
+  lon_min: -3.0
+  lat_min: 51.5
+  lon_max: 9.0
+  lat_max: 61.5
+  crs: "EPSG:4326"
+
+time_range:
+  start: "2022-01-01"
+  end:   "2025-12-31"
+
+sentinel2:
+  collection: "COPERNICUS/S2_HARMONIZED"
+  # North Sea is the cloudiest of the four regions; relax to capture
+  # any usable acquisition. Cloud mask will still filter individual
+  # pixels.
+  max_cloud_pct: 40
+  bands_required: ["B11", "B12", "QA60"]
+
+glint:
+  enabled: true
+  # High-latitude geometry means glint is a smaller risk than in the
+  # tropical regions, but the threshold is kept consistent for now.
+  threshold_deg: 15.0
+
+notes: |
+  - Expect 80-90 % of acquisitions to be cloud-rejected; budget for
+    sparse coverage.
+  - Norwegian Petroleum Directorate publishes well-event reports
+    that we should cross-reference at Phase 4.
+  - High-latitude winter sun angles will tank Band 12 SNR for
+    Nov-Feb; consider restricting to Mar-Oct in Phase 4.

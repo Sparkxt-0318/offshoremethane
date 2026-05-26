@@ -1,0 +1,58 @@
+# East China Sea — PRIMARY production-scan region (per PI 2026-05-26).
+#
+# Scientific motivation
+# ---------------------
+# The East China Sea hosts CNOOC's offshore gas developments
+# (e.g., Pinghu, Chunxiao/Tianwaitian/Lishui ridge fields in the
+# Xihu Trough). The region has been studied for emissions from
+# coastal-China onshore sources but is genuinely under-monitored
+# offshore in peer-reviewed literature. This makes it the novelty
+# target for OffshorePlume.
+#
+# Ground-truth caveats: IMEO MARS coverage is global but most
+# confirmed events to date have been over land hotspots. We expect
+# fewer prior-known plumes here than in the Gulf of Mexico, which
+# is *the point* — novel detections are the publishable finding.
+
+region_id: east_china_sea
+priority: 1
+display_name: "East China Sea"
+
+# Initial bounding box (lon_min, lat_min, lon_max, lat_max). To be
+# refined in Phase 4 to a tight buffer around platform locations
+# (currently a coarse box covering the Xihu Trough and adjacent
+# CNOOC blocks). Latitudes intentionally exclude shallow estuarine
+# waters near the coast where Sentinel-2 turbidity confounds B12.
+bbox:
+  lon_min: 121.0
+  lat_min: 26.0
+  lon_max: 127.5
+  lat_max: 32.5
+  crs: "EPSG:4326"
+
+# Time range for Phase 4. Confirmed with PI on 2026-05-26.
+time_range:
+  start: "2022-01-01"
+  end:   "2025-12-31"
+
+# Sentinel-2 query parameters.
+sentinel2:
+  collection: "COPERNICUS/S2_HARMONIZED"   # L1C TOA reflectance
+  max_cloud_pct: 30                         # tightened in offshore where cloud is dense
+  bands_required: ["B11", "B12", "QA60"]
+
+# Glint masking is critical here; tropics-adjacent sun angles drive
+# strong specular reflection at certain seasons.
+glint:
+  enabled: true
+  threshold_deg: 15.0                      # see ADR-0004 (to be written in Phase 2)
+
+# Notes for future-self
+notes: |
+  - Watch for Kuroshio Current internal waves between roughly 28-30 deg N;
+    these are a known false-positive source for surface-pattern detectors.
+  - Heavy shipping lanes between Shanghai and Pusan cut diagonally across
+    the AOI; ship wakes will be a major negative-class contributor for
+    the Phase 3 CNN.
+  - Cross-validation against MARS will be thin; lean on TROPOMI anomalies
+    and any published case studies.

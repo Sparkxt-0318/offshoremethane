@@ -1,0 +1,74 @@
+name: CI
+
+# Runs on every push to a branch with an open PR, and on every PR update.
+# Triggers are deliberately narrow: only the events that actually need
+# verification (main and any PR), not every WIP commit on every branch.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Cancel in-progress runs if a newer commit arrives on the same ref.
+# Saves CI minutes and gives faster feedback on the latest state.
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: py${{ matrix.python-version }}
+    runs-on: ubuntu-latest
+
+    strategy:
+      # Continue the other Python version if one fails so we see both.
+      fail-fast: false
+      matrix:
+        python-version: ['3.11', '3.12']
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v3
+        with:
+          version: 'latest'
+          # Cache uv's wheel cache; key invalidates on uv.lock change.
+          enable-cache: true
+          cache-dependency-glob: 'uv.lock'
+
+      - name: Install Python ${{ matrix.python-version }}
+        run: uv python install ${{ matrix.python-version }}
+
+      - name: Sync dependencies
+        run: uv sync --extra dev --python ${{ matrix.python-version }}
+
+      - name: Environment info
+        run: |
+          uv run python --version
+          uv run python -c "import platform; print('platform:', platform.platform())"
+          uv run python -c "
+          import importlib
+          for mod in ['numpy', 'pandas', 'rasterio', 'xarray', 'geopandas',
+                     'torch', 'ee', 'sklearn', 'matplotlib', 'cartopy']:
+              try:
+                  m = importlib.import_module(mod)
+                  v = getattr(m, '__version__', '?')
+                  print(f'{mod}: {v}')
+              except Exception as e:
+                  print(f'{mod}: IMPORT FAILED ({e!r})')
+          "
+
+      - name: Lint (ruff check)
+        run: uv run ruff check src tests
+
+      - name: Format check (ruff format)
+        run: uv run ruff format --check src tests
+
+      - name: Type check (mypy)
+        run: uv run mypy src
+
+      - name: Tests (pytest)
+        run: uv run pytest -q
